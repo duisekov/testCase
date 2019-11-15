@@ -9,4 +9,6 @@ class Sheep extends Model
     public $timestamps = false;
 
     protected $table = 'sheeps';
+
+    protected $fillable = ['corral_id'];
 }
