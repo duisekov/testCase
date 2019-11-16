@@ -16,7 +16,7 @@ class CreateSheepsTable extends Migration
         Schema::create('sheeps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('corral_id')->unsigned();
+            $table->integer('corral_id')->unsigned()->nullable();
 
             $table->foreign('corral_id')->references('id')->on('corrals');
         });

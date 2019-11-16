@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Corral;
 use App\Http\Resources\SheepResource;
 use App\Http\Resources\SheepResourceCollection;
 use App\Sheep;
@@ -30,12 +31,24 @@ class SheepController extends Controller
      * @param Request $request
      * @return SheepResource
      */
-    public function store(Request $request){
+    public function store(Request $request):SheepResource
+    {
+        $corrals = Corral::all();
         $id = Sheep::all()->last()->id + 1;
+        $temp = PHP_INT_MAX;
+        $temp_corral = $corrals->first();
+
+
+        foreach ($corrals as $corral){
+            if (count($corral->sheeps) < $temp){
+                $temp = count($corral->sheeps);
+                $temp_corral = $corral;
+            }
+        }
 
         $sheep = new Sheep();
         $sheep->name = "Овечка {$id}";
-        $sheep->corral_id = rand(1,4); #TODO change to corral with fewest number of sheep
+        $sheep->corral_id = $temp_corral->id;
         $sheep->save();
 
         return new SheepResource($sheep);

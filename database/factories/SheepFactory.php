@@ -9,6 +9,5 @@ use Faker\Generator as Faker;
 $factory->define(Sheep::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'corral_id' => Corral::all()->random()->id,
     ];
 });

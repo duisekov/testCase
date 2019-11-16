@@ -14,3 +14,5 @@ use Illuminate\Http\Request;
 */
 
 Route::apiResource('/sheep', 'SheepController');
+
+Route::apiResource('/corral', 'CorralController')->only(['index']);
