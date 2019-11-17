@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <corrals></corrals>
+    <history></history>
 
 @endsection

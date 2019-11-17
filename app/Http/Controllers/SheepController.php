@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Corral;
+use App\History;
 use App\Http\Resources\SheepResource;
 use App\Sheep;
 use Illuminate\Http\Request;
@@ -31,6 +32,10 @@ class SheepController extends Controller
         $sheep->corral_id = Corral::inRandomOrder()->first()->id;
         $sheep->save();
 
+        $history = new History();
+        $history->description = "{$sheep->name} была добавлена в загон {$sheep->corral_id}";
+        $history->save();
+
         return new SheepResource($sheep);
     }
 
@@ -51,7 +56,13 @@ class SheepController extends Controller
      */
     public function destroy()
     {
-        Sheep::inRandomOrder()->first()->delete();
+        $sheep = Sheep::inRandomOrder()->first();
+
+        $history = new History();
+        $history->description = "{$sheep->name} была зарублена";
+        $history->save();
+
+        $sheep->delete();
 
         return response()->json(['deleted' => 'success'], 200);
     }

@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('corrals', require('./components/Corrals.vue').default);
 Vue.component('sheep', require('./components/Sheep.vue').default);
+Vue.component('history', require('./components/History.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -17,4 +17,6 @@ Route::apiResource('/sheep', 'SheepController')->except(['destroy', 'index']);
 
 Route::apiResource('/corral', 'CorralController')->only(['index']);
 
+Route::apiResource('/history', 'HistoryController')->only(['index']);
+
 Route::delete('/destroy', 'SheepController@destroy')->name('delete.sheep');

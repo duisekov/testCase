@@ -1,21 +1,17 @@
 <template>
-    <div class="card">
-        <div class="card-header">
-            Фермочка для овечек
-        </div>
-        <div class="card-body">
-            <h4>Day: {{ day }}</h4>
-            <div class="card-deck">
-                <div class="card card-body" v-for="corral in corrals.data" v-bind:key="corral.id">
-                    <h6 class="card-title">{{ corral.name }}</h6>
-                    <sheep :parentData="{corral}"></sheep>
-                </div>
+    <div class="card-body">
+        <h4>День: {{ day }}</h4>
+        <div class="card-deck">
+            <div class="card card-body" v-for="corral in corrals.data" v-bind:key="corral.id">
+                <h6 class="card-title">{{ corral.name }}</h6>
+                <sheep :parentData="{corral}"></sheep>
             </div>
-            <hr>
-            <button @click="createCorral()" class="btn btn-primary">Создать новую ферму</button>
-            <button @click="updateCorral()" class="btn btn-primary">Обновить</button>
-            <button @click="deleteSheep()" class="btn btn-danger float-right">Зарубить овечку</button>
         </div>
+        <hr>
+        <button @click="createCorral()" class="btn btn-primary">Создать новую ферму</button>
+        <button @click="updateCorral()" class="btn btn-primary">Обновить</button>
+        <button @click="showHistory()" class="btn btn-primary">История</button>
+        <button @click="deleteSheep()" class="btn btn-danger float-right">Зарубить овечку</button>
     </div>
 </template>
 
@@ -105,6 +101,11 @@
                 } catch (e) {
                     console.err(e)
                 }
+            },
+
+            showHistory() {
+                var win = window.open('/history', '_blank');
+                win.focus();
             },
         }
     };
