@@ -1,5 +1,5 @@
 <template>
-    <select multiple class="form-control" name="" id="">
+    <select multiple class="form-control">
         <option value="" v-for="sheep in parentData.corral.sheeps">{{sheep.name}}</option>
     </select>
 </template>

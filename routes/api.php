@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::apiResource('/sheep', 'SheepController');
+Route::apiResource('/sheep', 'SheepController')->except(['destroy', 'index']);
 
 Route::apiResource('/corral', 'CorralController')->only(['index']);
+
+Route::delete('/destroy', 'SheepController@destroy')->name('delete.sheep');
