@@ -25,7 +25,7 @@ class CorralController extends Controller
             DB::table('sheeps')->truncate();
             DB::table('history')->truncate();
 
-            while(Corral::withCount('sheeps')->orderBy('sheeps_count', 'asc')->first()->sheeps_count < 2) {
+            while(Corral::withCount('sheeps')->orderBy('sheeps_count', 'asc')->first()->sheeps_count < 1) {
                 DB::table('sheeps')->truncate();
                 DB::table('history')->truncate();
 
@@ -41,6 +41,16 @@ class CorralController extends Controller
                     $history->save();
                 }
             }
+        }
+
+        $corral_id1 = Corral::withCount('sheeps')->orderBy('sheeps_count', 'asc')->first()->id;
+        /**
+         * Complete corral with 1 sheep
+         */
+        if (Corral::withCount('sheeps')->orderBy('sheeps_count', 'asc')->first()->sheeps_count == 1) {
+            $corral_id2 = (Corral::withCount('sheeps')->orderBy('sheeps_count', 'desc')->first()->id);
+            $sheep = Sheep::where('corral_id', '=', $corral_id2)->firstOrFail();
+            $sheep->update(['corral_id' => $corral_id1]);
         }
 
         return new CorralResourceCollection(Corral::with('sheeps')->get());
