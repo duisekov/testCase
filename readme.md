@@ -8,6 +8,9 @@
 # Install Dependencies
 composer install
 
+# Create db locally(.env) and generate key
+php artisan key:generate
+
 # Run Migrations
 php artisan migrate
 
@@ -19,6 +22,9 @@ npm install
 
 # Watch Files
 npm run watch
+
+# Start server 
+php artisan serve
 ```
 
 ## Endpoints
@@ -27,14 +33,10 @@ npm run watch
 ``` bash
 GET api/sheep
 ```
-### Get single sheep
-``` bash
-GET api/sheep/{id}
-```
 
 ### Delete sheep
 ``` bash
-DELETE api/sheep/{id}
+DELETE api/destroy
 ```
 
 ### Add sheep
@@ -46,4 +48,14 @@ POST api/sheep
 ``` bash
 PUT api/sheep/{id}
 corral_id
+```
+
+### List all corrals with sheep
+``` bash
+GET api/corral
+```
+
+### List history
+``` bash
+GET api/history
 ```
