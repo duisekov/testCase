@@ -29,7 +29,11 @@ class SheepController extends Controller
 
         $sheep = new Sheep();
         $sheep->name = "Овечка {$id}";
-        $sheep->corral_id = Corral::inRandomOrder()->first()->id;
+        if ($request->corral_id) {
+            $sheep->corral_id = $request->corral_id;
+        } else {
+            $sheep->corral_id = Corral::inRandomOrder()->first()->id;
+        }
         $sheep->save();
 
         $history = new History();
@@ -47,6 +51,10 @@ class SheepController extends Controller
     public function update(Sheep $sheep, Request $request) : SheepResource
     {
         $sheep->update(['corral_id' => $request->corral_id]);
+
+        $history = new History();
+        $history->description = "{$sheep->name} была перемещена в загон {$sheep->corral_id}";
+        $history->save();
 
         return new SheepResource($sheep);
     }

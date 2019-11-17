@@ -1870,13 +1870,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       corrals: [],
       day: 0,
       time: 0,
-      interval: null
+      interval: null,
+      command: ''
     };
   },
   mounted: function mounted() {
@@ -2028,6 +2034,96 @@ __webpack_require__.r(__webpack_exports__);
     showHistory: function showHistory() {
       var win = window.open('/history', '_blank');
       win.focus();
+    },
+    performAction: function performAction() {
+      var corral_id, response, str, id, _response2;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function performAction$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!this.command.includes('Удалить овечку')) {
+                _context3.next = 4;
+                break;
+              }
+
+              this.deleteSheep();
+              _context3.next = 41;
+              break;
+
+            case 4:
+              if (!this.command.includes('Добавить овечку в загон ')) {
+                _context3.next = 21;
+                break;
+              }
+
+              corral_id = parseInt(this.command.substr(this.command.length - 1));
+              _context3.prev = 6;
+              _context3.next = 9;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/api/sheep' + '?corral_id=' + corral_id));
+
+            case 9:
+              _context3.next = 11;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('/api/corral'));
+
+            case 11:
+              response = _context3.sent;
+              this.corrals = response.data;
+              localStorage.setItem('corrals', JSON.stringify(this.corrals));
+              _context3.next = 19;
+              break;
+
+            case 16:
+              _context3.prev = 16;
+              _context3.t0 = _context3["catch"](6);
+              console.err(_context3.t0);
+
+            case 19:
+              _context3.next = 41;
+              break;
+
+            case 21:
+              if (!this.command.includes('Перенести овечку ', 0)) {
+                _context3.next = 40;
+                break;
+              }
+
+              str = this.command.substring(17, 19);
+              id = parseInt(str);
+              corral_id = parseInt(this.command.substr(this.command.length - 1));
+              _context3.prev = 25;
+              _context3.next = 28;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.put('/api/sheep/' + id + '?corral_id=' + corral_id));
+
+            case 28:
+              _context3.next = 30;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('/api/corral'));
+
+            case 30:
+              _response2 = _context3.sent;
+              this.corrals = _response2.data;
+              localStorage.setItem('corrals', JSON.stringify(this.corrals));
+              _context3.next = 38;
+              break;
+
+            case 35:
+              _context3.prev = 35;
+              _context3.t1 = _context3["catch"](25);
+              console.err(_context3.t1);
+
+            case 38:
+              _context3.next = 41;
+              break;
+
+            case 40:
+              alert('Такой команды не существует!');
+
+            case 41:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, null, this, [[6, 16], [25, 35]]);
     }
   }
 });
@@ -38222,7 +38318,46 @@ var render = function() {
         }
       },
       [_vm._v("Зарубить овечку")]
-    )
+    ),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "input-group mb-3" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.command,
+            expression: "command"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "Введите команду" },
+        domProps: { value: _vm.command },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.command = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success",
+          on: {
+            click: function($event) {
+              return _vm.performAction()
+            }
+          }
+        },
+        [_vm._v("Выполнить")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
